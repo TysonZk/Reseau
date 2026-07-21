@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# Logs
+*.log
+
+# Secrets / config locale (garder .env.example versionné)
+.env

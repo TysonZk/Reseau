@@ -1,0 +1,31 @@
+services:
+  storage-web:
+    build: .
+    image: storage-web:latest
+    container_name: storage-web
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      # Exécute df/lsblk/docker dans les namespaces de l'hôte (PID 1)
+      - HOST_NSENTER=1
+      # --- Alertes par webhook (optionnel) ---
+      # URL du webhook (Discord / Slack / endpoint JSON). Vide = désactivé.
+      - ALERT_WEBHOOK_URL=${ALERT_WEBHOOK_URL:-}
+      # Seuil d'alerte en % d'utilisation
+      - ALERT_THRESHOLD=${ALERT_THRESHOLD:-85}
+      # Intervalle de vérification en secondes
+      - ALERT_INTERVAL=${ALERT_INTERVAL:-300}
+      # Format : auto | discord | slack | json (auto = détecté depuis l'URL)
+      - ALERT_WEBHOOK_FORMAT=${ALERT_WEBHOOK_FORMAT:-auto}
+    # Nécessaire pour lire les disques de l'hôte et entrer dans ses namespaces
+    pid: host
+    privileged: true
+    volumes:
+      # Accès au démon Docker de l'hôte (section 🐳 du dashboard)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8888/healthz')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

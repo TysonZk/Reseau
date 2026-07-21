@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stockage · Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💾</text></svg>" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">💾</div>
+        <div>
+          <h1>Stockage</h1>
+          <div class="sub">Vue d'ensemble des systèmes de fichiers &amp; disques</div>
+        </div>
+      </div>
+      <div class="meta">
+        <div><span class="dot"></span>Hôte <b id="host">—</b></div>
+        <div style="margin-top:4px">Actualisé <b id="time">—</b></div>
+      </div>
+    </header>
+
+    <section id="alerts-sec">
+      <div class="section-title">
+        🚨 Alertes <span class="soft" id="threshold-label">(≥ 85 %)</span>
+        <span class="spacer"></span>
+        <span id="wh-badge" class="wh-badge" hidden></span>
+        <button id="wh-test" class="wh-test" hidden>Tester le webhook</button>
+      </div>
+      <div id="alerts" class="skeleton">Chargement…</div>
+    </section>
+
+    <section>
+      <div class="section-title">📊 Systèmes de fichiers</div>
+      <div id="fs" class="grid grid-fs"><div class="skeleton">Chargement…</div></div>
+    </section>
+
+    <section>
+      <div class="section-title">💽 Disques physiques</div>
+      <div id="disks" class="grid grid-cards"><div class="skeleton">Chargement…</div></div>
+    </section>
+
+    <section id="docker-sec" hidden>
+      <div class="section-title">🐳 Docker</div>
+      <div class="card card-table">
+        <table>
+          <thead><tr><th>Type</th><th>Total</th><th>Actifs</th><th>Taille</th><th>Récupérable</th></tr></thead>
+          <tbody id="docker"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">🔁 Périphériques loop</div>
+      <div id="loops" class="loops"><div class="skeleton">Chargement…</div></div>
+    </section>
+
+    <footer id="foot">storage-web · port 8888</footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
